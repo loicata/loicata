@@ -34,6 +34,17 @@ def install_tkinter():
     except subprocess.CalledProcessError:
         return False
 
+def read_api_key():
+    try:
+        with open("IP_scan_api_key.txt", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        print("Error: The file 'IP_scan_api_key.txt' was not found in the current directory.")
+        return None
+    except Exception as e:
+        print(f"Error reading API key: {e}")
+        return None
+
 def check_ip_reputation(ip_address, api_key):
     url = "https://api.abuseipdb.com/api/v2/check"
     headers = {
@@ -88,7 +99,10 @@ def log_result(file_path, ip_address, result):
             f.write(f"Status: {'[WARNING] Likely malicious' if result['data']['abuseConfidenceScore'] > 50 else '[OK] Clean'}\n")
 
 def run_scan(file_path):
-    api_key = "17f2400a8951dfe3f4dd0e18b8cf5df22eb488660af13d0bb47b8ff711a20e86527191469063e0eb"
+    api_key = read_api_key()
+    if not api_key:
+        print("Error: Could not read API key. Please ensure 'IP_scan_api_key.txt' exists and contains a valid key.")
+        return
 
     try:
         ip_address = requests.get("https://api.ipify.org").text
@@ -160,3 +174,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
