@@ -64,10 +64,10 @@ def select_save_location():
     root = tk.Tk()
     root.withdraw()
     file_path = filedialog.asksaveasfilename(
-        defaultextension=".txt",
-        initialfile="IP_scan_log",
-        title="Create IP_scan_log file",
-        filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
+        defaultextension=".log",
+        initialfile="IP_scan",
+        title="Create IP_scan.log file",
+        filetypes=[("Log files", "*.log"), ("All files", "*.*")]
     )
     return file_path
 
@@ -120,15 +120,15 @@ def run_scan(file_path):
     print(f"\nResults saved to: {file_path}")
 
 def main():
-    file_path = "IP_scan_log.txt"
+    file_path = "IP_scan.log"
 
     # Check if the file exists, otherwise ask the user to create it
     if not os.path.exists(file_path):
-        print("The file IP_scan_log.txt does not exist. Creating the file...")
+        print("The file IP_scan.log does not exist. Creating the file...")
         if not is_tkinter_installed():
             print("tkinter is not installed. Attempting to install...")
             if not install_tkinter():
-                print("Unable to install tkinter. The file will be created in the current directory as 'IP_scan_log.txt'.")
+                print("Unable to install tkinter. The file will be created in the current directory as 'IP_scan.log'.")
                 with open(file_path, "w", encoding="utf-8") as f:
                     f.write("--- IP scan log file ---\n")
             else:
@@ -139,7 +139,7 @@ def main():
                     with open(file_path, "w", encoding="utf-8") as f:
                         f.write("--- IP scan log file ---\n")
                 else:
-                    print("No location selected. The file will be created in the current directory as 'IP_scan_log.txt'.")
+                    print("No location selected. The file will be created in the current directory as 'IP_scan.log'.")
                     with open(file_path, "w", encoding="utf-8") as f:
                         f.write("--- IP scan log file ---\n")
     else:
